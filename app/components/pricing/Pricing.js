@@ -2,43 +2,19 @@
 export default function Pricing() {
   const plans = [
     {
-      name: "Basic plan",
+      name: "50 Credits",
+      features: ["$0.14 per image"],
+      price: 7,
+    },
+    {
+      name: "100 Credits",
       price: 12,
-      features: [
-        "Curabitur faucibus",
-        "massa ut pretium maximus",
-        "Sed posuere nisi",
-        "Pellentesque eu nibh et neque",
-        "Suspendisse a leo",
-        "Praesent quis venenatis ipsum",
-        "Duis non diam vel tortor",
-      ],
+      features: ["$0.12 per image"],
     },
     {
-      name: "Startup",
-      price: 35,
-      features: [
-        "Curabitur faucibus",
-        "massa ut pretium maximus",
-        "Sed posuere nisi",
-        "Pellentesque eu nibh et neque",
-        "Suspendisse a leo",
-        "Praesent quis venenatis ipsum",
-        "Duis non diam vel tortor",
-      ],
-    },
-    {
-      name: "Enterprise",
-      price: 60,
-      features: [
-        "Curabitur faucibus",
-        "massa ut pretium maximus",
-        "Sed posuere nisi",
-        "Pellentesque eu nibh et neque",
-        "Suspendisse a leo",
-        "Praesent quis venenatis ipsum",
-        "Duis non diam vel tortor",
-      ],
+      name: "250 credits",
+      price: 28,
+      features: ["$0.10 per image"],
     },
   ];
 
@@ -64,10 +40,6 @@ export default function Pricing() {
             >
               <div>
                 <span className="text-indigo-600 font-medium">{item.name}</span>
-                <div className="mt-4 text-gray-800 text-3xl font-semibold">
-                  ${item.price}{" "}
-                  <span className="text-xl text-gray-600 font-normal">/mo</span>
-                </div>
               </div>
               <ul className="py-8 space-y-3">
                 {item.features.map((featureItem, idx) => (
@@ -90,7 +62,7 @@ export default function Pricing() {
               </ul>
               <div className="flex-1 flex items-end">
                 <button className="px-3 py-3 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700">
-                  Get Started
+                  ${item.price}
                 </button>
               </div>
             </div>
