@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { signIn, useSession } from "next-auth/react";
+import { getSession, signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import AvatarDropdown from "../auth/AvatarDropdown";
 
@@ -31,14 +31,14 @@ export default function Navbar() {
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5">
+            <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img
                 className="h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
               />
-            </a>
+            </Link>
           </div>
           <div className="flex lg:hidden">
             <button
@@ -62,7 +62,7 @@ export default function Navbar() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            {status === "authenticated" ? (
+            {session?.user ? (
               <div className="flex items-center">
                 <p className=" mr-3 text-sm">10 credits left</p>
 

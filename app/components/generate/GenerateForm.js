@@ -2,7 +2,7 @@
 import React, { useContext, useEffect } from "react";
 import Tabs from "./Tabs";
 import PromptInfo from "./PromptInfo";
- import { GenerateIconContext } from "@/app/context/GenerateIconContext";
+import { GenerateIconContext } from "@/app/context/GenerateIconContext";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { iconStyles } from "@/app/constants/main";
 
@@ -65,7 +65,7 @@ const GenerateForm = () => {
         <h3 className="text-base font-semibold leading-7 text-gray-900">
           Which color suits your app the most?
         </h3>
-        <Tabs />
+        {/* <Tabs /> */}
         <div className="flex mt-2">
           <div className="mt-3 rounded-full bg-black p-5 mr-2"></div>
           <div className="mt-3 rounded-full bg-red-500 p-5 mr-2"></div>
