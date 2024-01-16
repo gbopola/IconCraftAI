@@ -6,13 +6,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export async function DELETE(request, { params }) {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    return NextResponse.json(
-      { message: "User is not authorised" },
-      { status: 401 }
-    );
-  }
-
   const userId = params.id;
 
   // Check if the user exists

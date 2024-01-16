@@ -15,9 +15,7 @@ export const authOptions = {
       // store the user id from MongoDB to session
       const sessionUser = await User.findOne({ email: session.user.email });
 
-      if (session?.user?.id) {
-        session.user.id = sessionUser._id.toString();
-      }
+      session.user.id = sessionUser._id.toString();
 
       return session;
     },

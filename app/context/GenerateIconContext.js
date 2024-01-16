@@ -11,7 +11,7 @@ export const GenerateIconProvider = ({ children }) => {
     numIcons: 1,
   });
 
-  const [generatedIcon, setGeneratedIcon] = useState(true);
+  const [generatedIcon, setGeneratedIcon] = useState(null);
 
   const [tabs, setTabs] = useState([
     { name: "Set", current: true },

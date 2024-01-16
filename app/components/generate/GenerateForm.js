@@ -31,6 +31,24 @@ const GenerateForm = () => {
     });
   };
 
+  // handle generate icon
+  const handleGenerateIcon = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXTAUTH_URL}/api/generate/${session?.user?.id}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   return (
     <div className="mt-32 px-20 mx-auto w-[600px]">
       <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10 mb-6">
@@ -110,6 +128,12 @@ const GenerateForm = () => {
               <PlusIcon id="plus" className="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
+          <button
+            onClick={handleGenerateIcon}
+            className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Generate
+          </button>
         </div>
       </div>
     </div>
