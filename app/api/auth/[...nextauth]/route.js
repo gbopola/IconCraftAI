@@ -19,32 +19,20 @@ export const authOptions = {
 
       return session;
     },
-    async signIn({ user, account }) {
-      if (account.provider === "google") {
-        const { name, email } = user;
-        try {
-          await connectMongoDB();
-          const userExists = await User.findOne({ email });
+    async signIn({ user, account, profile }) {
+      try {
+        await connectMongoDB();
+        const userExists = await User.findOne({ email: profile.email });
 
-          if (!userExists) {
-            const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                name,
-                email,
-              }),
-            });
-
-            if (res.ok) {
-              return user;
-            }
-          }
-        } catch (error) {
-          console.log(error);
+        if (!userExists) {
+          await User.create({
+            email: profile.email,
+            name: profile.name,
+          });
         }
+        return true;
+      } catch (error) {
+        console.log(error);
       }
 
       return user;

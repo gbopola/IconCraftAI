@@ -49,6 +49,18 @@ const GenerateForm = () => {
     }
   };
 
+  // colors
+  const classes = [
+    " rounded-full bg-black p-5 mr-2 cursor-pointer",
+    "rounded-full bg-red-500 p-5 mr-2 cursor-pointer",
+    "rounded-full bg-orange-500 p-5 mr-2 cursor-pointer",
+    "rounded-full bg-yellow-500 p-5 mr-2 cursor-pointer",
+    "rounded-full bg-green-500 p-5 mr-2 cursor-pointer",
+    "rounded-full bg-blue-500 p-5 mr-2 cursor-pointer",
+    "rounded-full bg-indigo-500 p-5 mr-2 cursor-pointer",
+    "rounded-full bg-violet-500 p-5 mr-2 cursor-pointer",
+  ];
+
   return (
     <div className="mt-32 px-20 mx-auto w-[600px]">
       <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10 mb-6">
@@ -84,15 +96,10 @@ const GenerateForm = () => {
           Which color suits your app the most?
         </h3>
         {/* <Tabs /> */}
-        <div className="flex mt-2">
-          <div className="mt-3 rounded-full bg-black p-5 mr-2"></div>
-          <div className="mt-3 rounded-full bg-red-500 p-5 mr-2"></div>
-          <div className="mt-3 rounded-full bg-orange-500 p-5 mr-2"></div>
-          <div className="mt-3 rounded-full bg-yellow-500 p-5 mr-2"></div>
-          <div className="mt-3 rounded-full bg-green-500 p-5 mr-2"></div>
-          <div className="mt-3 rounded-full bg-blue-500 p-5 mr-2"></div>
-          <div className="mt-3 rounded-full bg-indigo-500 p-5 mr-2"></div>
-          <div className="mt-3 rounded-full bg-violet-500 p-5"></div>
+        <div className="grid grid-cols-8 mt-2 gap-4 items-center">
+          {classes.map((color) => (
+            <div className={color}></div>
+          ))}
         </div>
         <div>
           <h3 className="text-base font-semibold leading-7 text-gray-900 mt-10">
