@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { getSession, signIn, useSession } from "next-auth/react";
+import { getSession, signIn, useSession, getProviders } from "next-auth/react";
 import Image from "next/image";
 import AvatarDropdown from "../auth/AvatarDropdown";
 
@@ -19,9 +19,17 @@ const navigation = [
 ];
 
 export default function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const { status, data: session } = useSession();
+
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [providers, setProviders] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getProviders();
+      setProviders(res);
+    })();
+  }, []);
 
   return (
     <div className="bg-white">
@@ -69,12 +77,21 @@ export default function Navbar() {
                 <AvatarDropdown session={session} />
               </div>
             ) : (
-              <a
-                onClick={() => signIn("google")}
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Log in <span aria-hidden="true">&rarr;</span>
-              </a>
+              <div>
+                {providers &&
+                  Object.values(providers).map((provider) => (
+                    <button
+                      type="button"
+                      key={provider.name}
+                      onClick={() => {
+                        signIn(provider.id);
+                      }}
+                      className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                      Sign in
+                    </button>
+                  ))}
+              </div>
             )}
           </div>
         </nav>

@@ -13,16 +13,16 @@ export const metadata = {
 
 const RootLayout = ({ children }) => {
   return (
-    <GenerateIconProvider>
-      <html lang="en">
-        <body className={inter.className}>
+    <html lang="en">
+      <body className={inter.className}>
+        <GenerateIconProvider>
           <NextAuthProvider>
             <Navbar />
             {children}
           </NextAuthProvider>
-        </body>
-      </html>
-    </GenerateIconProvider>
+        </GenerateIconProvider>
+      </body>
+    </html>
   );
 };
 

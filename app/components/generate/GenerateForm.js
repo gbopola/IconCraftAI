@@ -1,10 +1,13 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Tabs from "./Tabs";
 import PromptInfo from "./PromptInfo";
 import { GenerateIconContext } from "@/app/context/GenerateIconContext";
-import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { iconStyles } from "@/app/constants/main";
+import gradient from "../../../public/assets/images/gradient.png";
+
+import Image from "next/image";
 
 const GenerateForm = () => {
   const { generateIcon, setGenerateIcon } = useContext(GenerateIconContext);
@@ -15,6 +18,15 @@ const GenerateForm = () => {
       ...generateIcon,
       [event.target.name]: event.target.value,
     });
+  };
+
+  // handle select color
+  const handleSelectColor = (event, classType) => {
+    generateIcon.color !== classType.color &&
+      setGenerateIcon({
+        ...generateIcon,
+        color: event.target.id,
+      });
   };
 
   // control number of icons
@@ -43,7 +55,6 @@ const GenerateForm = () => {
       }
 
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -51,15 +62,41 @@ const GenerateForm = () => {
 
   // colors
   const classes = [
-    " rounded-full bg-black p-5 mr-2 cursor-pointer",
-    "rounded-full bg-red-500 p-5 mr-2 cursor-pointer",
-    "rounded-full bg-orange-500 p-5 mr-2 cursor-pointer",
-    "rounded-full bg-yellow-500 p-5 mr-2 cursor-pointer",
-    "rounded-full bg-green-500 p-5 mr-2 cursor-pointer",
-    "rounded-full bg-blue-500 p-5 mr-2 cursor-pointer",
-    "rounded-full bg-indigo-500 p-5 mr-2 cursor-pointer",
-    "rounded-full bg-violet-500 p-5 mr-2 cursor-pointer",
+    {
+      color: "black",
+      style: "rounded-full bg-black p-5 mr-2 cursor-pointer relative",
+    },
+    {
+      color: "red",
+      style: "rounded-full bg-red-500 p-5 mr-2 cursor-pointer relative",
+    },
+    {
+      color: "orange",
+      style: "rounded-full bg-orange-500 p-5 mr-2 cursor-pointer relative",
+    },
+    {
+      color: "yellow",
+      style: "rounded-full bg-yellow-500 p-5 mr-2 cursor-pointer relative",
+    },
+    {
+      color: "green",
+      style: "rounded-full bg-green-500 p-5 mr-2 cursor-pointer relative",
+    },
+    {
+      color: "blue",
+      style: "rounded-full bg-blue-500 p-5 mr-2 cursor-pointer relative",
+    },
+    {
+      color: "indigo",
+      style: "rounded-full bg-indigo-500 p-5 mr-2 cursor-pointer relative",
+    },
+    {
+      color: "violet",
+      style: "rounded-full bg-violet-500 p-5 mr-2 cursor-pointer relative",
+    },
   ];
+
+  //
 
   return (
     <div className="mt-32 px-20 mx-auto w-[600px]">
@@ -97,19 +134,36 @@ const GenerateForm = () => {
         </h3>
         {/* <Tabs /> */}
         <div className="grid grid-cols-8 mt-2 gap-4 items-center">
-          {classes.map((color) => (
-            <div className={color}></div>
-          ))}
+          {classes.map((classType) => {
+            return (
+              <div
+                key={classType.color}
+                id={classType.color}
+                className={`${classType.style}`}
+                onClick={() => handleSelectColor(event, classType)}
+              >
+                {generateIcon.color === classType.color && (
+                  <CheckIcon
+                    className="h-4 w-4 text-white absolute top-[11px] right-[11px]"
+                    aria-hidden="true"
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
         <div>
           <h3 className="text-base font-semibold leading-7 text-gray-900 mt-10">
             Which style would you like?
           </h3>
-          {iconStyles.map((style) => (
-            <button key={style} className="bg-red-500 text-white p-2 m-2">
-              {style}
-            </button>
-          ))}
+          {/* {/* {iconStyles.map((style) => (
+            <img
+              src={style.image}
+              key={style.name}
+              className="bg-red-500 text-white p-2 m-2"
+            />
+          ))} */}
+          */}
           <h3 className="text-base font-semibold leading-7 text-gray-900 mt-10 mb-3">
             How many icons do you need?
           </h3>
