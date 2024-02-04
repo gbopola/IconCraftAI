@@ -4,10 +4,12 @@ const openai = new OpenAI({ apiKey: process.env.OpenAI_KEY });
 import { NextResponse } from "next/server";
 
 export async function POST(request, { params }) {
-  const { prompt, color, model, style, numIcons } = await request.json();
+  const { prompt, color, style, numIcons } = await request.json();
   const fullPrompt = `App icon, ${prompt}, ${
     color && color + ","
   } ${style} style`;
+
+  const model = "dall-e-3";
 
   const response = await openai.images.generate({
     prompt: fullPrompt,

@@ -6,17 +6,27 @@ import { GenerateIconContext } from "@/app/context/GenerateIconContext";
 import { CheckIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { iconStyles } from "@/app/constants/main";
 import gradient from "../../../public/assets/images/gradient.png";
-
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 const GenerateForm = () => {
   const { generateIcon, setGenerateIcon } = useContext(GenerateIconContext);
+
+  const { status, data: session } = useSession();
 
   // change values in state
   const handleStateChange = (event) => {
     setGenerateIcon({
       ...generateIcon,
       [event.target.name]: event.target.value,
+    });
+  };
+
+  // change current style
+  const changeCurrentStyle = (event) => {
+    setGenerateIcon({
+      ...generateIcon,
+      style: event.target.id,
     });
   };
 
@@ -46,17 +56,19 @@ const GenerateForm = () => {
   // handle generate icon
   const handleGenerateIcon = async () => {
     try {
-      const response = await fetch(
-        `${process.env.NEXTAUTH_URL}/api/generate/${session?.user?.id}`
-      );
+      const response = await fetch(`/api/generate/${session?.user.id}`, {
+        method: "POST",
+        body: JSON.stringify(generateIcon),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const data = await response.json();
+      console.log("Response:", data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error:", error);
     }
   };
 
@@ -162,8 +174,13 @@ const GenerateForm = () => {
                 <Image
                   src={style.image}
                   key={style.name}
+                  id={style.name}
+                  onClick={changeCurrentStyle}
                   alt="icon style"
-                  className="rounded-xl cursor-pointer"
+                  className={`rounded-xl cursor-pointer ${
+                    generateIcon.style === style.name &&
+                    "border border-4 border-purple-600"
+                  }`}
                 />
                 <p className="text-center text-sm text-gray-600">
                   {style.name}
