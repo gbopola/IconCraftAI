@@ -15,12 +15,12 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <GenerateIconProvider>
-          <NextAuthProvider>
+        <NextAuthProvider>
+          <GenerateIconProvider>
             <Navbar />
-            {children}
-          </NextAuthProvider>
-        </GenerateIconProvider>
+            <main>{children}</main>
+          </GenerateIconProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );

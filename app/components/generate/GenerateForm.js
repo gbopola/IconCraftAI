@@ -99,7 +99,7 @@ const GenerateForm = () => {
   //
 
   return (
-    <div className="mt-32 px-20 mx-auto w-[600px]">
+    <div className="mt-32 px-20 mx-auto w-[630px]">
       <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10 mb-6">
         Generate Icon
       </span>
@@ -156,14 +156,22 @@ const GenerateForm = () => {
           <h3 className="text-base font-semibold leading-7 text-gray-900 mt-10">
             Which style would you like?
           </h3>
-          {/* {/* {iconStyles.map((style) => (
-            <img
-              src={style.image}
-              key={style.name}
-              className="bg-red-500 text-white p-2 m-2"
-            />
-          ))} */}
-          */}
+          <div className="grid grid-cols-5 mt-2 gap-4 items-center">
+            {iconStyles.map((style) => (
+              <div>
+                <Image
+                  src={style.image}
+                  key={style.name}
+                  alt="icon style"
+                  className="rounded-xl cursor-pointer"
+                />
+                <p className="text-center text-sm text-gray-600">
+                  {style.name}
+                </p>
+              </div>
+            ))}
+          </div>
+
           <h3 className="text-base font-semibold leading-7 text-gray-900 mt-10 mb-3">
             How many icons do you need?
           </h3>

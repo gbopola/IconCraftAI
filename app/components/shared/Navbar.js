@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { getSession, signIn, useSession, getProviders } from "next-auth/react";
-import Image from "next/image";
+import { signIn, useSession } from "next-auth/react";
 import AvatarDropdown from "../auth/AvatarDropdown";
 
 function classNames(...classes) {
@@ -18,18 +17,10 @@ const navigation = [
   { name: "Collection", href: "/collection" },
 ];
 
-export default function Navbar() {
+const Navbar = () => {
   const { status, data: session } = useSession();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [providers, setProviders] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      const res = await getProviders();
-      setProviders(res);
-    })();
-  }, []);
 
   return (
     <div className="bg-white">
@@ -78,19 +69,13 @@ export default function Navbar() {
               </div>
             ) : (
               <div>
-                {providers &&
-                  Object.values(providers).map((provider) => (
-                    <button
-                      type="button"
-                      key={provider.name}
-                      onClick={() => {
-                        signIn(provider.id);
-                      }}
-                      className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Sign in
-                    </button>
-                  ))}
+                <button
+                  type="button"
+                  onClick={() => signIn("google")}
+                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Sign in
+                </button>
               </div>
             )}
           </div>
@@ -149,4 +134,6 @@ export default function Navbar() {
       </header>
     </div>
   );
-}
+};
+
+export default Navbar;
