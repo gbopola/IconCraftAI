@@ -39,16 +39,22 @@ const GenerateForm = () => {
       });
   };
 
-  // control number of icons
-  const handleNumIcons = (event) => {
+  // add number of icons
+  const addNumIcons = () => {
     setGenerateIcon((prevGenerateIcon) => {
-      const updatedNumIcons =
-        event.target.id === "plus" || event.target.parentElementId === "plus"
-          ? prevGenerateIcon.numIcons + 1
-          : prevGenerateIcon.numIcons - 1;
       return {
         ...prevGenerateIcon,
-        numIcons: updatedNumIcons >= 0 ? updatedNumIcons : 0,
+        numIcons: prevGenerateIcon.numIcons + 1,
+      };
+    });
+  };
+
+  // subtract number of icons
+  const subtractNumIcons = () => {
+    setGenerateIcon((prevGenerateIcon) => {
+      return {
+        ...prevGenerateIcon,
+        numIcons: prevGenerateIcon.numIcons - 1,
       };
     });
   };
@@ -196,7 +202,7 @@ const GenerateForm = () => {
             <button
               type="button"
               id="minus"
-              onClick={handleNumIcons}
+              onClick={subtractNumIcons}
               className="rounded-full   bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               <MinusIcon id="minus" className="h-5 w-5" aria-hidden="true" />
@@ -208,7 +214,7 @@ const GenerateForm = () => {
             <button
               type="button"
               id="plus"
-              onClick={handleNumIcons}
+              onClick={addNumIcons}
               className="rounded-full bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               <PlusIcon id="plus" className="h-5 w-5" aria-hidden="true" />

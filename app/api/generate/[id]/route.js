@@ -10,26 +10,41 @@ export async function POST(request, { params }) {
   } ${style} style`;
 
   const model = "dall-e-3";
+  const requests = [];
 
-  const response = await openai.images.generate({
-    prompt: fullPrompt,
-    model,
-    n: 1,
-    quality: "hd",
-    size: "1024x1024",
-  });
+  // Create multiple requests based on numIcons
+  for (let i = 0; i < numIcons; i++) {
+    requests.push(
+      openai.images.generate({
+        prompt: fullPrompt,
+        model,
+        n: 1,
+        quality: "hd",
+        size: "1024x1024",
+      })
+    );
+  }
 
-  const image = response.data[0].url;
+  // Execute all requests in parallel
+  const responses = await Promise.all(requests);
 
-  const generatedIcon = await GeneratedIcon.create({
-    user: params.id,
-    prompt: fullPrompt,
-    color,
-    style,
-    model,
-    image,
-    numIcons,
-  });
+  // Process responses
+  const generatedIcons = [];
+  for (let i = 0; i < responses.length; i++) {
+    const image = responses[i].data[0].url;
 
-  return NextResponse.json(generatedIcon, { status: 200 });
+    const generatedIcon = await GeneratedIcon.create({
+      user: params.id,
+      prompt: fullPrompt,
+      color,
+      style,
+      model,
+      image,
+      numIcons,
+    });
+
+    generatedIcons.push(generatedIcon);
+  }
+
+  return NextResponse.json(generatedIcons, { status: 200 });
 }
