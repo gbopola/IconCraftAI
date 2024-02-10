@@ -54,7 +54,8 @@ const GenerateForm = () => {
     setGenerateIcon((prevGenerateIcon) => {
       return {
         ...prevGenerateIcon,
-        numIcons: prevGenerateIcon.numIcons - 1,
+        numIcons:
+          prevGenerateIcon.numIcons - 1 < 1 ? 1 : prevGenerateIcon.numIcons - 1,
       };
     });
   };

@@ -5,6 +5,8 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import AvatarDropdown from "../auth/AvatarDropdown";
+import Image from "next/image";
+import logo from "../../../public/assets/images/logo-removebg.png";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -13,7 +15,6 @@ function classNames(...classes) {
 const navigation = [
   { name: "Generate", href: "/generate" },
   { name: "Pricing", href: "/pricing" },
-  { name: "Community", href: "/community" },
   { name: "Collection", href: "/collection" },
 ];
 
@@ -30,13 +31,12 @@ const Navbar = () => {
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
-            <Link href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
+            <Link href="/" className="-m-1.5 p-1.5 flex items-center">
+              <span className="sr-only">IconCraftAI</span>
+              <Image className="h-12 w-auto" src={logo} alt="logo" />
+              <p className="ml-2 text-lg font-semibold text-gray-800">
+                IconCraftAI
+              </p>
             </Link>
           </div>
           <div className="flex lg:hidden">
