@@ -33,8 +33,8 @@ const Navbar = () => {
           <div className="flex lg:flex-1">
             <Link href="/" className="-m-1.5 p-1.5 flex items-center">
               <span className="sr-only">IconCraftAI</span>
-              <Image className="h-12 w-auto" src={logo} alt="logo" />
-              <p className="ml-2 text-lg font-semibold text-gray-800">
+              <Image className="h-10 w-auto" src={logo} alt="logo" />
+              <p className="ml-2 text-base font-semibold text-gray-800">
                 IconCraftAI
               </p>
             </Link>

@@ -46,5 +46,10 @@ export async function POST(request, { params }) {
     generatedIcons.push(generatedIcon);
   }
 
+  // redeem credits
+  const user = await User.findById(params.id);
+  user.credits -= numIcons;
+  await user.save();
+
   return NextResponse.json(generatedIcons, { status: 200 });
 }
