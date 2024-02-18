@@ -11,7 +11,52 @@ export const GenerateIconProvider = ({ children }) => {
     numIcons: 1,
   });
 
-  const [generatedIcon, setGeneratedIcon] = useState(null);
+  const [generatedIcon, setGeneratedIcon] = useState([
+    {
+      prompt: "A crafting table",
+      color: "purple",
+      style: "flat",
+      image:
+        "https://res.cloudinary.com/gbopola/image/upload/v1708183610/iconcraftai/t2hxqukfjlszrglwbwv2.png",
+    },
+    {
+      prompt: "A crafting table",
+      color: "purple",
+      style: "flat",
+      image:
+        "https://res.cloudinary.com/gbopola/image/upload/v1708183610/iconcraftai/t2hxqukfjlszrglwbwv2.png",
+    },
+    {
+      prompt: "A crafting table",
+      color: "purple",
+      style: "flat",
+      image:
+        "https://res.cloudinary.com/gbopola/image/upload/v1708183610/iconcraftai/t2hxqukfjlszrglwbwv2.png",
+    },
+    {
+      prompt: "A crafting table",
+      color: "purple",
+      style: "flat",
+      image:
+        "https://res.cloudinary.com/gbopola/image/upload/v1708183610/iconcraftai/t2hxqukfjlszrglwbwv2.png",
+    },
+    {
+      prompt: "A crafting table",
+      color: "purple",
+      style: "flat",
+      image:
+        "https://res.cloudinary.com/gbopola/image/upload/v1708183610/iconcraftai/t2hxqukfjlszrglwbwv2.png",
+    },
+    {
+      prompt: "A crafting table",
+      color: "purple",
+      style: "flat",
+      image:
+        "https://res.cloudinary.com/gbopola/image/upload/v1708183610/iconcraftai/t2hxqukfjlszrglwbwv2.png",
+    },
+  ]);
+
+  const [isGenerated, setIsGenerated] = useState(true);
 
   const [tabs, setTabs] = useState([
     { name: "Set", current: true },
@@ -24,6 +69,8 @@ export const GenerateIconProvider = ({ children }) => {
       value={{
         generateIcon,
         setGenerateIcon,
+        isGenerated,
+        setIsGenerated,
         generatedIcon,
         setGeneratedIcon,
         tabs,

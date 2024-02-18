@@ -2,9 +2,12 @@ import User from "@/models/user";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { connectMongoDB } from "@/lib/mongodb";
 
 export async function DELETE(request, { params }) {
   const session = await getServerSession(authOptions);
+
+  await connectMongoDB();
 
   const userId = params.id;
 

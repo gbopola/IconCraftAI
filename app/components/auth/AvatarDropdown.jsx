@@ -18,8 +18,8 @@ export default function AvatarDropdown({ session }) {
       },
     })
       .then((data) => {
-        console.log(data);
         signOut();
+        
       })
       .catch((error) => {
         console.error("Error deleting resource:", error);

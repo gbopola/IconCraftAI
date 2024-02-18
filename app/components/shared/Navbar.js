@@ -63,7 +63,9 @@ const Navbar = () => {
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {session?.user ? (
               <div className="flex items-center">
-                <p className=" mr-3 text-sm">10 credits left</p>
+                <p className=" mr-3 text-sm">
+                  {session?.user.credits} credit{session?.user.credits > 1 && "s"} left
+                </p>
 
                 <AvatarDropdown session={session} />
               </div>

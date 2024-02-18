@@ -2,9 +2,21 @@ import GeneratedIcon from "@/models/generatedIcon";
 import OpenAI from "openai";
 const openai = new OpenAI({ apiKey: process.env.OpenAI_KEY });
 import { NextResponse } from "next/server";
+import User from "@/models/user";
+import { connectMongoDB } from "@/lib/mongodb";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: "gbopola",
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function POST(request, { params }) {
   const { prompt, color, style, numIcons } = await request.json();
+
+  await connectMongoDB();
+
   const fullPrompt = `App icon, ${prompt}, ${
     color && color + ","
   } ${style} style`;
@@ -33,14 +45,18 @@ export async function POST(request, { params }) {
   for (let i = 0; i < responses.length; i++) {
     const image = responses[i].data[0].url;
 
+    // Upload image to Cloudinary
+    const uploadedImage = await cloudinary.uploader.upload(image, {
+      folder: "iconcraftai",
+    });
+
     const generatedIcon = await GeneratedIcon.create({
       user: params.id,
       prompt: fullPrompt,
       color,
       style,
       model,
-      image,
-      numIcons,
+      image: uploadedImage.secure_url,
     });
 
     generatedIcons.push(generatedIcon);

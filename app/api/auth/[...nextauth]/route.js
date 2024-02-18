@@ -17,6 +17,8 @@ export const authOptions = {
 
       session.user.id = sessionUser._id.toString();
 
+      session.user.credits = sessionUser.credits;
+
       return session;
     },
     async signIn({ user, account, profile }) {
