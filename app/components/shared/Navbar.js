@@ -64,7 +64,11 @@ const Navbar = () => {
             {session?.user ? (
               <div className="flex items-center">
                 <p className=" mr-3 text-sm">
-                  {session?.user.credits} credit{session?.user.credits > 1 && "s"} left
+                  {session?.user.credits} credit
+                  {session?.user.credits > 1 || session?.user.credits === 0
+                    ? "s"
+                    : ""}
+                  left
                 </p>
 
                 <AvatarDropdown session={session} />

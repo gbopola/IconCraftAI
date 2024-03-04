@@ -11,6 +11,10 @@ const generatedIconSchema = new Schema(
       type: String,
       required: true,
     },
+    fullPrompt: {
+      type: String,
+      required: true,
+    },
     color: {
       type: String,
     },

@@ -52,7 +52,8 @@ export async function POST(request, { params }) {
 
     const generatedIcon = await GeneratedIcon.create({
       user: params.id,
-      prompt: fullPrompt,
+      prompt,
+      fullPrompt,
       color,
       style,
       model,

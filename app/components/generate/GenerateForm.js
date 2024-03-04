@@ -8,9 +8,17 @@ import { iconStyles } from "@/app/constants/main";
 import gradient from "../../../public/assets/images/gradient.png";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import ErrorAlert from "./ErrorAlert";
 
 const GenerateForm = () => {
-  const { generateIcon, setGenerateIcon } = useContext(GenerateIconContext);
+  const { generateIcon, setGenerateIcon, setGeneratedIcon, setIsGenerated } =
+    useContext(GenerateIconContext);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({
+    prompt: false,
+    color: false,
+    style: false,
+  });
 
   const { status, data: session } = useSession();
 
@@ -62,6 +70,44 @@ const GenerateForm = () => {
 
   // handle generate icon
   const handleGenerateIcon = async () => {
+    // Reset errors
+    setErrors({
+      prompt: false,
+      color: false,
+      style: false,
+    });
+
+    // Collect error conditions
+    const validationErrors = [];
+
+    // Check for empty fields
+    if (!generateIcon.prompt.trim()) {
+      validationErrors.push("prompt");
+    }
+
+    if (!generateIcon.color) {
+      validationErrors.push("color");
+    }
+
+    if (!generateIcon.style) {
+      validationErrors.push("style");
+    }
+
+    // Display all collected errors
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      prompt: validationErrors.includes("prompt"),
+      color: validationErrors.includes("color"),
+      style: validationErrors.includes("style"),
+    }));
+
+    // Check if there are any errors before proceeding
+    if (validationErrors.length > 0) {
+      return;
+    }
+
+    // show loading spinner
+    setLoading(true);
     try {
       const response = await fetch(`/api/generate/${session?.user.id}`, {
         method: "POST",
@@ -73,7 +119,12 @@ const GenerateForm = () => {
       }
 
       const data = await response.json();
-      console.log("Response:", data);
+      //  add generated icon to state
+      setGeneratedIcon(data);
+      // set isGenerated to true to show the generated icons
+      setIsGenerated(true);
+      // set loading to false
+      setLoading(false);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -115,10 +166,15 @@ const GenerateForm = () => {
     },
   ];
 
-  //
-
   return (
     <div className="mt-32 px-20 mx-auto w-[630px]">
+      {errors.prompt || errors.color || errors.style ? (
+        <ErrorAlert
+          promptError={errors.prompt}
+          colorError={errors.color}
+          styleError={errors.style}
+        />
+      ) : null}
       <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10 mb-6">
         Generate Icon
       </span>
@@ -223,9 +279,11 @@ const GenerateForm = () => {
           </div>
           <button
             onClick={handleGenerateIcon}
-            className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className={`rounded-md mt-4 bg-indigo-${
+              loading ? "400" : 600
+            } px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
           >
-            Generate
+            {loading ? "Loading..." : "Generate"}
           </button>
         </div>
       </div>
