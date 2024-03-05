@@ -5,9 +5,7 @@ import { useEffect } from "react";
 const GeneratedIconCard = ({ icon }) => {
   const { prompt, color, image } = icon;
 
-  const downloadIcon = () => {
-    
-  };
+  const downloadIcon = () => {};
   return (
     <div className="rounded-md border border-gray-300 w-[220px] height-[220px] relative">
       <div

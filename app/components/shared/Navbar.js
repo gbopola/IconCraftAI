@@ -67,7 +67,7 @@ const Navbar = () => {
                   {session?.user.credits} credit
                   {session?.user.credits > 1 || session?.user.credits === 0
                     ? "s"
-                    : ""}
+                    : ""}{" "}
                   left
                 </p>
 

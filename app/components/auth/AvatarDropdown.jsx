@@ -19,7 +19,6 @@ export default function AvatarDropdown({ session }) {
     })
       .then((data) => {
         signOut();
-        
       })
       .catch((error) => {
         console.error("Error deleting resource:", error);
@@ -33,6 +32,7 @@ export default function AvatarDropdown({ session }) {
           <Image
             className="inline-block rounded-full cursor-pointer"
             src={session?.user?.image}
+            alt="user avatar"
             height={40}
             width={40}
           />

@@ -5,7 +5,7 @@ export async function POST(request, { params }) {
   const { url } = await request.json();
 
   const options = {
-    url
+    url,
   };
 
   download

@@ -108,66 +108,71 @@ const GenerateForm = () => {
 
     // show loading spinner
     setLoading(true);
-    try {
-      const response = await fetch(`/api/generate/${session?.user.id}`, {
-        method: "POST",
-        body: JSON.stringify(generateIcon),
-      });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+    const response = await fetch(`/api/generate/${session?.user.id}`, {
+      method: "POST",
+      body: JSON.stringify(generateIcon),
+    });
 
-      const data = await response.json();
-      //  add generated icon to state
-      setGeneratedIcon(data);
-      // set isGenerated to true to show the generated icons
-      setIsGenerated(true);
-      // set loading to false
-      setLoading(false);
-    } catch (error) {
-      console.error("Error:", error);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    const data = await response.json();
+    //  add generated icon to state
+    setGeneratedIcon(data);
+    // set isGenerated to true to show the generated icons
+    setIsGenerated(true);
+    // set loading to false
+    setLoading(false);
   };
 
   // colors
   const classes = [
     {
+      id: 1,
       color: "black",
       style: "rounded-full bg-black p-5 mr-2 cursor-pointer relative",
     },
     {
+      id: 2,
       color: "red",
       style: "rounded-full bg-red-500 p-5 mr-2 cursor-pointer relative",
     },
     {
+      id: 3,
       color: "orange",
       style: "rounded-full bg-orange-500 p-5 mr-2 cursor-pointer relative",
     },
     {
+      id: 4,
       color: "yellow",
       style: "rounded-full bg-yellow-500 p-5 mr-2 cursor-pointer relative",
     },
     {
+      id: 5,
       color: "green",
       style: "rounded-full bg-green-500 p-5 mr-2 cursor-pointer relative",
     },
     {
+      id: 6,
       color: "blue",
       style: "rounded-full bg-blue-500 p-5 mr-2 cursor-pointer relative",
     },
     {
+      id: 7,
       color: "indigo",
       style: "rounded-full bg-indigo-500 p-5 mr-2 cursor-pointer relative",
     },
     {
+      id: 8,
       color: "violet",
       style: "rounded-full bg-violet-500 p-5 mr-2 cursor-pointer relative",
     },
   ];
 
   return (
-    <div className="mt-32 px-20 mx-auto w-[630px]">
+    <div className="mt-32 px-20 mx-auto sm:w-[630px] w-full">
       {errors.prompt || errors.color || errors.style ? (
         <ErrorAlert
           promptError={errors.prompt}
@@ -212,7 +217,7 @@ const GenerateForm = () => {
           {classes.map((classType) => {
             return (
               <div
-                key={classType.color}
+                key={classType.id}
                 id={classType.color}
                 className={`${classType.style}`}
                 onClick={() => handleSelectColor(event, classType)}
@@ -231,15 +236,16 @@ const GenerateForm = () => {
           <h3 className="text-base font-semibold leading-7 text-gray-900 mt-10">
             Which style would you like?
           </h3>
-          <div className="grid grid-cols-5 mt-2 gap-4 items-center">
+          <div className="flex flex-wrap mt-2 gap-4 items-center">
             {iconStyles.map((style) => (
-              <div>
+              <div key={style.name}>
                 <Image
                   src={style.image}
-                  key={style.name}
                   id={style.name}
+                  width={100}
+                  height={100}
                   onClick={changeCurrentStyle}
-                  alt="icon style"
+                  alt={style.name}
                   className={`rounded-xl cursor-pointer ${
                     generateIcon.style === style.name &&
                     "border border-4 border-purple-600"
@@ -280,7 +286,7 @@ const GenerateForm = () => {
           <button
             onClick={handleGenerateIcon}
             className={`rounded-md mt-4 bg-indigo-${
-              loading ? "400" : 600
+              loading ? "400" : "600"
             } px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
           >
             {loading ? "Loading..." : "Generate"}

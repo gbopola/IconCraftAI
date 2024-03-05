@@ -1,9 +1,12 @@
-import React from 'react'
+import UserCollection from "@/app/components/collection/UserCollection";
+import React from "react";
 
 const page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <div>
+      <UserCollection />
+    </div>
+  );
+};
 
-export default page
+export default page;
