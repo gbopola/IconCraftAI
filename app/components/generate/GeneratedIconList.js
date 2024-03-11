@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { GenerateIconContext } from "@/app/context/GenerateIconContext";
+import { GenerateIconContext } from "../../context/GenerateIconContext";
 import GeneratedIconCard from "./GeneratedIconCard";
 const GeneratedIconList = () => {
   const { generatedIcon, setIsGenerated } = useContext(GenerateIconContext);
+
   return (
     <div className="bg-white mt-40 mx-auto w-1/2">
       <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-10">

@@ -1,5 +1,5 @@
 "use client";
-import { GenerateIconContext } from "@/app/context/GenerateIconContext";
+import { GenerateIconContext } from "../../context/GenerateIconContext";
 import { useContext, useState } from "react";
 
 function classNames(...classes) {

@@ -1,7 +1,7 @@
 "use client";
-import GenerateForm from "@/app/components/generate/GenerateForm";
-import GeneratedIconList from "@/app/components/generate/GeneratedIconList";
-import { GenerateIconContext } from "@/app/context/GenerateIconContext";
+import GenerateForm from "../../components/generate/GenerateForm";
+import GeneratedIconList from "../../components/generate/GeneratedIconList";
+import { GenerateIconContext } from "../../context/GenerateIconContext";
 import React, { useContext } from "react";
 
 const page = () => {

@@ -1,9 +1,9 @@
-import GeneratedIcon from "@/models/generatedIcon";
+import GeneratedIcon from "../../../../models/generatedIcon";
 import OpenAI from "openai";
 const openai = new OpenAI({ apiKey: process.env.OpenAI_KEY });
 import { NextResponse } from "next/server";
-import User from "@/models/user";
-import { connectMongoDB } from "@/lib/mongodb";
+import User from "../../../../models/User";
+import { connectMongoDB } from "../../../../lib/mongodb";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
@@ -48,6 +48,8 @@ export async function POST(request, { params }) {
     // Upload image to Cloudinary
     const uploadedImage = await cloudinary.uploader.upload(image, {
       folder: "iconcraftai",
+      public_id: `${prompt}`,
+      transformation: { flags: "attachment" },
     });
 
     const generatedIcon = await GeneratedIcon.create({

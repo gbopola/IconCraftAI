@@ -1,11 +1,11 @@
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect } from "react";
 
 const GeneratedIconCard = ({ icon }) => {
   const { prompt, color, image } = icon;
 
-  const downloadIcon = () => {};
   return (
     <div className="rounded-md border border-gray-300 w-[220px] height-[220px] relative">
       <div
@@ -20,11 +20,12 @@ const GeneratedIconCard = ({ icon }) => {
       />
       <div className="flex justify-between items-center p-3">
         <p className="text-xs">{prompt}</p>
-        <ArrowDownTrayIcon
-          onclick={downloadIcon}
-          className="h-4 w-4 cursor-pointer"
-          aria-hidden="true"
-        />
+        <Link href={image}>
+          <ArrowDownTrayIcon
+            className="h-4 w-4 cursor-pointer"
+            aria-hidden="true"
+          />
+        </Link>
       </div>
     </div>
   );

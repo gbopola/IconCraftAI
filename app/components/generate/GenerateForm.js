@@ -2,9 +2,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import Tabs from "./Tabs";
 import PromptInfo from "./PromptInfo";
-import { GenerateIconContext } from "@/app/context/GenerateIconContext";
+import { GenerateIconContext } from "../../context/GenerateIconContext";
 import { CheckIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { iconStyles } from "@/app/constants/main";
+import { iconStyles } from "../../constants/main";
 import gradient from "../../../public/assets/images/gradient.png";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
@@ -121,9 +121,7 @@ const GenerateForm = () => {
     const data = await response.json();
     //  add generated icon to state
     setGeneratedIcon(data);
-    // set isGenerated to true to show the generated icons
     setIsGenerated(true);
-    // set loading to false
     setLoading(false);
   };
 
@@ -172,7 +170,7 @@ const GenerateForm = () => {
   ];
 
   return (
-    <div className="mt-32 px-20 mx-auto sm:w-[630px] w-full">
+    <div className="mt-32 px-20 mx-auto md:w-[630px] w-full">
       {errors.prompt || errors.color || errors.style ? (
         <ErrorAlert
           promptError={errors.prompt}
@@ -213,7 +211,7 @@ const GenerateForm = () => {
           Which color suits your app the most?
         </h3>
         {/* <Tabs /> */}
-        <div className="grid grid-cols-8 mt-2 gap-4 items-center">
+        <div className="flex flex-wrap mt-2 gap-2 items-center">
           {classes.map((classType) => {
             return (
               <div
@@ -284,6 +282,7 @@ const GenerateForm = () => {
             </button>
           </div>
           <button
+            disabled={loading}
             onClick={handleGenerateIcon}
             className={`rounded-md mt-4 bg-indigo-${
               loading ? "400" : "600"

@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext } from "react";
-import { GenerateIconContext } from "@/app/context/GenerateIconContext";
+import { GenerateIconContext } from "../../context/GenerateIconContext";
 import GeneratedIconCard from "../generate/GeneratedIconCard";
 const UserCollection = () => {
   const { generatedIcon, setIsGenerated } = useContext(GenerateIconContext);

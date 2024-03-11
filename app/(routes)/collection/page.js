@@ -1,4 +1,4 @@
-import UserCollection from "@/app/components/collection/UserCollection";
+import UserCollection from "../../components/collection/UserCollection";
 import React from "react";
 
 const page = () => {
