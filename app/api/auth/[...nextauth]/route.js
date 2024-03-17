@@ -21,7 +21,7 @@ export const authOptions = {
 
       return session;
     },
-    async signIn({ user, account, profile }) {
+    async signIn({ profile }) {
       try {
         await connectMongoDB();
         const userExists = await User.findOne({ email: profile.email });
