@@ -1,31 +1,41 @@
 "use client";
 
+import { CheckIcon } from "@heroicons/react/20/solid";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 
-export default function Pricing() {
-  const [pricing, setPricing] = useState([]);
+const tiers = [
+  {
+    name: "50 Credits",
+    id: "price_1OuwmeGsQAaZMRPbk1n0jKHD",
+    href: "#",
+    price: "$5",
+    features: ["$0.10 per image"],
+    mostPopular: false,
+  },
+  {
+    name: "100 Credits",
+    id: "price_1OuwnTGsQAaZMRPbYXysb6t6",
+    href: "#",
+    price: "$9",
+    features: ["$0.09 per image"],
+    mostPopular: true,
+  },
+  {
+    name: "250 Credits",
+    id: "price_1Ouwo9GsQAaZMRPbn8X0EToY",
+    href: "#",
+    price: "$20",
+    features: ["$0.08 per image"],
+    mostPopular: false,
+  },
+];
 
-  const { status, data: session } = useSession();
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
-  // convert unit amount to dollars
-  const toDollars = (unitAmount) => {
-    return `$${unitAmount / 100}`;
-  };
-
-  // set features for each pricing plan
-  const setFeatures = (nickname) => {
-    switch (nickname) {
-      case "50 Credits":
-        return "$0.10 per image";
-      case "100 Credits":
-        return "$0.09 per image";
-      case "250 Credits":
-        return "$0.08 per image";
-      default:
-        return "";
-    }
-  };
+export default function Example() {
+  const { data: session } = useSession();
 
   // handle payment
   const handlePayment = async (e, price) => {
@@ -37,7 +47,7 @@ export default function Pricing() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        priceId: price.id,
+        priceId: price,
         userId: session?.user?.id,
       }),
     });
@@ -50,70 +60,78 @@ export default function Pricing() {
     window.location.assign(data);
   };
 
-  useEffect(() => {
-    fetch("/api/payment/get")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setPricing(data);
-      });
-  }, []);
-
   return (
-    <section className="py-14 mt-24">
-      <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
-        <div className="relative max-w-xl mx-auto sm:text-center">
-          <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
-            Pricing for all sizes
-          </h3>
-          <div className="mt-3 max-w-xl">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-              efficitur consequat nunc.
-            </p>
-          </div>
+    <div className="bg-white py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+            Pricing
+          </p>
         </div>
-        <div className="mt-16 space-y-6 justify-center gap-6 sm:grid sm:grid-cols-2 sm:space-y-0 lg:grid-cols-3">
-          {pricing &&
-            pricing.map((price, idx) => (
-              <div
-                key={idx}
-                className="relative flex-1 flex items-stretch flex-col p-8 rounded-xl border-2"
-              >
-                <div>
-                  <span className="text-indigo-600 font-medium">
-                    {price.nickname}
-                  </span>
-                </div>
-                <ul className="py-8 space-y-3">
-                  <li key={idx} className="flex items-center gap-5">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                    {setFeatures(price.nickname)}
-                  </li>
-                </ul>
-                <div className="flex-1 flex items-end">
-                  <button
-                    onClick={(e) => handlePayment(e, price)}
-                    className="px-3 py-3 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700"
-                  >
-                    {toDollars(price.unit_amount)}{" "}
-                  </button>
-                </div>
+
+        <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+          {tiers.map((tier) => (
+            <div
+              key={tier.id}
+              className={classNames(
+                tier.mostPopular
+                  ? "ring-2 ring-indigo-600"
+                  : "ring-1 ring-gray-200",
+                "rounded-3xl p-8 xl:p-10"
+              )}
+            >
+              <div className="flex items-center justify-between gap-x-4">
+                <h3
+                  id={tier.id}
+                  className={classNames(
+                    tier.mostPopular ? "text-indigo-600" : "text-gray-900",
+                    "text-lg font-semibold leading-8"
+                  )}
+                >
+                  {tier.name}
+                </h3>
+                {tier.mostPopular ? (
+                  <p className="rounded-full bg-indigo-600/10 px-2.5 py-1 text-xs font-semibold leading-5 text-indigo-600">
+                    Most popular
+                  </p>
+                ) : null}
               </div>
-            ))}
+              <p className="mt-6 flex items-baseline gap-x-1">
+                <span className="text-4xl font-bold tracking-tight text-gray-900">
+                  {tier.price}
+                </span>
+              </p>
+              <a
+                href={tier.href}
+                aria-describedby={tier.id}
+                onClick={(e) => handlePayment(e, tier.id)}
+                className={classNames(
+                  tier.mostPopular
+                    ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-500"
+                    : "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
+                  "mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                )}
+              >
+                Buy credits
+              </a>
+              <ul
+                role="list"
+                className="mt-8 space-y-3 text-sm leading-6 text-gray-600 xl:mt-10"
+              >
+                {tier.features.map((feature) => (
+                  <li key={feature} className="flex gap-x-3">
+                    <CheckIcon
+                      className="h-6 w-5 flex-none text-indigo-600"
+                      aria-hidden="true"
+                    />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

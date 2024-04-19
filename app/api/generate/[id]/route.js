@@ -7,7 +7,7 @@ import { connectMongoDB } from "../../../../lib/mongodb";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
@@ -17,6 +17,24 @@ export async function POST(request, { params }) {
 
   await connectMongoDB();
 
+  if (!prompt || !style || !numIcons) {
+    return NextResponse.json(
+      { message: "Missing required fields" },
+      { status: 400 }
+    );
+  }
+
+  // redeem credits
+  const user = await User.findById(params.id);
+  // check if user has enough credits
+  if (user.credits < numIcons || user.credits === 0) {
+    return NextResponse.json(
+      { message: "Insufficient credits" },
+      { status: 400 }
+    );
+  }
+
+  // Create full prompt with all parameters
   const fullPrompt = `App icon, ${prompt}, ${
     color && color + ","
   } ${style} style`;
@@ -65,8 +83,7 @@ export async function POST(request, { params }) {
     generatedIcons.push(generatedIcon);
   }
 
-  // redeem credits
-  const user = await User.findById(params.id);
+  // Deduct credits from user
   user.credits -= numIcons;
   await user.save();
 

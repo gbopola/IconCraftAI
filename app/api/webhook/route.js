@@ -18,7 +18,7 @@ export async function POST(request) {
 
   const user = await User.findById(event.data.object.client_reference_id);
 
-  // // getting to the data we want from the event
+  // getting to the data we want from the event
   if (event.type === "checkout.session.completed") {
     switch (event.data.object.amount_total) {
       case 500:

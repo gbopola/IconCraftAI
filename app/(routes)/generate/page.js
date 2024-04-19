@@ -5,7 +5,7 @@ import { GenerateIconContext } from "../../context/GenerateIconContext";
 import React, { useContext } from "react";
 
 const page = () => {
-  const { isGenerated, setIsGenerated } = useContext(GenerateIconContext);
+  const { isGenerated } = useContext(GenerateIconContext);
 
   return <div>{isGenerated ? <GeneratedIconList /> : <GenerateForm />}</div>;
 };
