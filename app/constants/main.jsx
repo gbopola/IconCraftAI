@@ -60,3 +60,46 @@ export const iconStyles = [
   // { name: "line-art", image: lineArt },
   // { name: "doodle", image: doodle },
 ];
+
+export const classes = [
+  {
+    id: 1,
+    color: "black",
+    style: "rounded-full bg-black p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 2,
+    color: "red",
+    style: "rounded-full bg-red-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 3,
+    color: "orange",
+    style: "rounded-full bg-orange-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 4,
+    color: "yellow",
+    style: "rounded-full bg-yellow-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 5,
+    color: "green",
+    style: "rounded-full bg-green-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 6,
+    color: "blue",
+    style: "rounded-full bg-blue-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 7,
+    color: "indigo",
+    style: "rounded-full bg-indigo-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 8,
+    color: "violet",
+    style: "rounded-full bg-violet-500 p-5 mr-2 cursor-pointer relative",
+  },
+];
