@@ -27,8 +27,8 @@ const GenerateForm = () => {
   const numIcons = watch("numIcons");
 
   useEffect(() => {
-    register("color", { required: "Color is required" });
-    register("style", { required: "Style is required" });
+    register("color", { required: true });
+    register("style", { required: true });
 
     setGenerateIcon({
       ...generateIcon,
@@ -83,7 +83,7 @@ const GenerateForm = () => {
             Which elements would you want featured in your icons?
           </h3>
           <p className="text-sm leading-7 text-gray-600">
-            Keep it concise and straightforward.
+            Make it short and sweet if you can.
           </p>
           <div className="flex items-center">
             <input

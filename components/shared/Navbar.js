@@ -6,7 +6,7 @@ import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import AvatarDropdown from "../auth/AvatarDropdown";
 import Image from "next/image";
-import logo from "../../../public/assets/images/logo-removebg.png";
+import logo from "../../public/assets/images/logo-removebg.png";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -22,6 +22,10 @@ const Navbar = () => {
   const { status, data: session } = useSession();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const getCreditsText = (credits) => {
+    return `${credits} credit${credits !== 1 ? "s" : ""} left`;
+  };
 
   return (
     <div className="bg-white">
@@ -64,11 +68,7 @@ const Navbar = () => {
             {session?.user ? (
               <div className="flex items-center">
                 <p className=" mr-3 text-sm">
-                  {session?.user.credits} credit
-                  {session?.user.credits > 1 || session?.user.credits === 0
-                    ? "s"
-                    : ""}{" "}
-                  left
+                  {getCreditsText(session.user.credits)}
                 </p>
 
                 <AvatarDropdown session={session} />

@@ -1,7 +1,7 @@
 import { NextAuthProvider } from "./Provider";
-import Navbar from "./components/shared/Navbar";
-import { GenerateIconProvider } from "./context/GenerateIconContext";
+import { GenerateIconProvider } from "../context/GenerateIconContext";
 import "./globals.css";
+import Navbar from "../components/shared/Navbar";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
