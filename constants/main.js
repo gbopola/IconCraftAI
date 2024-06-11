@@ -65,41 +65,41 @@ export const classes = [
   {
     id: 1,
     color: "black",
-    style: "rounded-full bg-black p-5 mr-2 cursor-pointer relative",
+    style: "bg-black",
   },
   {
     id: 2,
     color: "red",
-    style: "rounded-full bg-red-500 p-5 mr-2 cursor-pointer relative",
+    style: "bg-red-500",
   },
   {
     id: 3,
     color: "orange",
-    style: "rounded-full bg-orange-500 p-5 mr-2 cursor-pointer relative",
+    style: "bg-orange-500",
   },
   {
     id: 4,
     color: "yellow",
-    style: "rounded-full bg-yellow-500 p-5 mr-2 cursor-pointer relative",
+    style: "bg-yellow-500",
   },
   {
     id: 5,
     color: "green",
-    style: "rounded-full bg-green-500 p-5 mr-2 cursor-pointer relative",
+    style: "bg-green-500",
   },
   {
     id: 6,
     color: "blue",
-    style: "rounded-full bg-blue-500 p-5 mr-2 cursor-pointer relative",
+    style: "bg-blue-500",
   },
   {
     id: 7,
     color: "indigo",
-    style: "rounded-full bg-indigo-500 p-5 mr-2 cursor-pointer relative",
+    style: "bg-indigo-500",
   },
   {
     id: 8,
     color: "violet",
-    style: "rounded-full bg-violet-500 p-5 mr-2 cursor-pointer relative",
+    style: "bg-violet-500",
   },
 ];
