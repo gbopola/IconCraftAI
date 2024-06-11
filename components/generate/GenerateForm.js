@@ -103,7 +103,7 @@ const GenerateForm = () => {
           <h3 className="text-base font-semibold leading-7 text-gray-900">
             Which color suits your app the most?
           </h3>
-          <div className="flex flex-wrap mt-2 gap-1 items-center">
+          <div className="flex flex-wrap mt-2 items-center">
             {classes.map((classType) => (
               <div
                 key={classType.id}
