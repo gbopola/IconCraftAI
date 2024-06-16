@@ -17,7 +17,7 @@ export async function POST(request, { params }) {
 
   await connectMongoDB();
 
-  if (!prompt || !style || !numIcons) {
+  if (!prompt || !style || !color || !numIcons) {
     return NextResponse.json(
       { message: "Missing required fields" },
       { status: 400 }
@@ -27,12 +27,12 @@ export async function POST(request, { params }) {
   // redeem credits
   const user = await User.findById(params.id);
   // check if user has enough credits
-  if (user.credits < numIcons || user.credits === 0) {
-    return NextResponse.json(
-      { message: "Insufficient credits" },
-      { status: 400 }
-    );
-  }
+  // if (user.credits < numIcons || user.credits === 0) {
+  //   return NextResponse.json(
+  //     { message: "Insufficient credits" },
+  //     { status: 400 }
+  //   );
+  // }
 
   // Create full prompt with all parameters
   const fullPrompt = `App icon, ${prompt}, ${
@@ -84,7 +84,7 @@ export async function POST(request, { params }) {
   }
 
   // Deduct credits from user
-  user.credits -= numIcons;
+  // user.credits -= numIcons;
   await user.save();
 
   return NextResponse.json(generatedIcons, { status: 200 });

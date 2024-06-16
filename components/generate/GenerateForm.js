@@ -7,6 +7,7 @@ import { GenerateIconContext } from "../../context/GenerateIconContext";
 import PromptInfo from "./PromptInfo";
 import ErrorAlert from "./ErrorAlert";
 import { classes, iconStyles } from "../../constants/main";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 const GenerateForm = () => {
   const { generateIcon, setGenerateIcon } = useContext(GenerateIconContext);
@@ -47,7 +48,8 @@ const GenerateForm = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
+    console.log(loading);
+    setLoading(true);
     // setLoading(true);
 
     // const response = await fetch(`/api/generate/${session?.user.id}`, {
@@ -171,10 +173,9 @@ const GenerateForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`rounded-md mt-4 bg-indigo-${
-              loading ? "400" : "600"
-            } px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+            className="rounded-md flex items-center mt-4 bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
+            {loading && <LoadingSpinner />}
             {loading ? "Loading..." : "Generate"}
           </button>
         </div>
