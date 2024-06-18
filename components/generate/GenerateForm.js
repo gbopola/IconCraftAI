@@ -1,14 +1,14 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React from "react";
 import Tabs from "./Tabs";
 import PromptInfo from "./PromptInfo";
-import { GenerateIconContext } from "../../context/GenerateIconContext";
 import { CheckIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { iconStyles } from "../../constants/main";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import ErrorAlert from "./ErrorAlert";
 import { LoadingSpinner } from "./LoadingSpinner";
+import useGenerateIconForm from "../../hooks/useGenerateIconForm";
 
 const colorClasses = [
   {
@@ -54,104 +54,33 @@ const colorClasses = [
 ];
 
 const GenerateForm = () => {
-  const { generateIcon, setGenerateIcon, setGeneratedIcon, setIsGenerated } =
-    useContext(GenerateIconContext);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({
-    prompt: false,
-    color: false,
-    style: false,
-  });
-
   const { status, data: session } = useSession();
+  const {
+    generateIcon,
+    errors,
+    loading,
+    handleStateChange,
+    changeCurrentStyle,
+    handleSelectColor,
+    addNumIcons,
+    subtractNumIcons,
+    handleGenerateIcon,
+  } = useGenerateIconForm();
 
-  const handleStateChange = (event) => {
-    setGenerateIcon({
-      ...generateIcon,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const changeCurrentStyle = (event) => {
-    setGenerateIcon({
-      ...generateIcon,
-      style: event.target.id,
-    });
-  };
-
-  const handleSelectColor = (event, classType) => {
-    if (generateIcon.color !== classType.color) {
-      setGenerateIcon({
-        ...generateIcon,
-        color: event.target.id,
-      });
+  // check if loading or session is not active
+  const checkLoadingOrSession = () => {
+    switch (true) {
+      case loading:
+        return "Generating...";
+      case !session:
+        return "Sign in to generate icons";
+      default:
+        return "Generate";
     }
-  };
-
-  const addNumIcons = () => {
-    setGenerateIcon((prevGenerateIcon) => ({
-      ...prevGenerateIcon,
-      numIcons: prevGenerateIcon.numIcons + 1,
-    }));
-  };
-
-  const subtractNumIcons = () => {
-    setGenerateIcon((prevGenerateIcon) => ({
-      ...prevGenerateIcon,
-      numIcons: Math.max(prevGenerateIcon.numIcons - 1, 1),
-    }));
-  };
-
-  const handleGenerateIcon = async () => {
-    setErrors({
-      prompt: false,
-      color: false,
-      style: false,
-    });
-
-    const validationErrors = [];
-
-    if (!generateIcon.prompt.trim()) validationErrors.push("prompt");
-    if (!generateIcon.color) validationErrors.push("color");
-    if (!generateIcon.style) validationErrors.push("style");
-
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      prompt: validationErrors.includes("prompt"),
-      color: validationErrors.includes("color"),
-      style: validationErrors.includes("style"),
-    }));
-
-    if (validationErrors.length > 0) {
-      // scroll to the top of the page with smooth behavior
-      window.scrollTo({ top: 0, behavior: "smooth" });
-
-      return;
-    }
-
-    setLoading(true);
-
-    // try {
-    //   const response = await fetch(`/api/generate/${session?.user.id}`, {
-    //     method: "POST",
-    //     body: JSON.stringify(generateIcon),
-    //   });
-
-    //   if (!response.ok)
-    //     throw new Error(`HTTP error! Status: ${response.status}`);
-
-    //   const data = await response.json();
-    //   setGeneratedIcon(data);
-    //   setIsGenerated(true);
-    // } catch (error) {
-    //   console.error(error);
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
   return (
-    <div className="mt-32 px-20 mx-auto md:w-[630px] w-full">
+    <div className="mt-32 mb-10 px-20 mx-auto md:w-[630px] w-full">
       {(errors.prompt || errors.color || errors.style) && (
         <ErrorAlert
           promptError={errors.prompt}
@@ -259,12 +188,12 @@ const GenerateForm = () => {
             </button>
           </div>
           <button
-            disabled={loading}
+            disabled={loading || !session}
             onClick={handleGenerateIcon}
             className="flex items-center rounded-md mt-4 bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             {loading && <LoadingSpinner />}
-            {loading ? "Loading..." : "Generate"}
+            {checkLoadingOrSession()}
           </button>
         </div>
       </div>
