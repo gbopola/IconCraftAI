@@ -1,14 +1,57 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Tabs from "./Tabs";
 import PromptInfo from "./PromptInfo";
 import { GenerateIconContext } from "../../context/GenerateIconContext";
 import { CheckIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { iconStyles } from "../../constants/main";
-import gradient from "../../../public/assets/images/gradient.png";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import ErrorAlert from "./ErrorAlert";
+import { LoadingSpinner } from "./LoadingSpinner";
+
+const colorClasses = [
+  {
+    id: 1,
+    color: "black",
+    style: "rounded-full bg-black p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 2,
+    color: "red",
+    style: "rounded-full bg-red-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 3,
+    color: "orange",
+    style: "rounded-full bg-orange-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 4,
+    color: "yellow",
+    style: "rounded-full bg-yellow-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 5,
+    color: "green",
+    style: "rounded-full bg-green-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 6,
+    color: "blue",
+    style: "rounded-full bg-blue-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 7,
+    color: "indigo",
+    style: "rounded-full bg-indigo-500 p-5 mr-2 cursor-pointer relative",
+  },
+  {
+    id: 8,
+    color: "violet",
+    style: "rounded-full bg-violet-500 p-5 mr-2 cursor-pointer relative",
+  },
+];
 
 const GenerateForm = () => {
   const { generateIcon, setGenerateIcon, setGeneratedIcon, setIsGenerated } =
@@ -22,7 +65,6 @@ const GenerateForm = () => {
 
   const { status, data: session } = useSession();
 
-  // change values in state
   const handleStateChange = (event) => {
     setGenerateIcon({
       ...generateIcon,
@@ -30,7 +72,6 @@ const GenerateForm = () => {
     });
   };
 
-  // change current style
   const changeCurrentStyle = (event) => {
     setGenerateIcon({
       ...generateIcon,
@@ -38,62 +79,42 @@ const GenerateForm = () => {
     });
   };
 
-  // handle select color
   const handleSelectColor = (event, classType) => {
-    generateIcon.color !== classType.color &&
+    if (generateIcon.color !== classType.color) {
       setGenerateIcon({
         ...generateIcon,
         color: event.target.id,
       });
+    }
   };
 
-  // add number of icons
   const addNumIcons = () => {
-    setGenerateIcon((prevGenerateIcon) => {
-      return {
-        ...prevGenerateIcon,
-        numIcons: prevGenerateIcon.numIcons + 1,
-      };
-    });
+    setGenerateIcon((prevGenerateIcon) => ({
+      ...prevGenerateIcon,
+      numIcons: prevGenerateIcon.numIcons + 1,
+    }));
   };
 
-  // subtract number of icons
   const subtractNumIcons = () => {
-    setGenerateIcon((prevGenerateIcon) => {
-      return {
-        ...prevGenerateIcon,
-        numIcons:
-          prevGenerateIcon.numIcons - 1 < 1 ? 1 : prevGenerateIcon.numIcons - 1,
-      };
-    });
+    setGenerateIcon((prevGenerateIcon) => ({
+      ...prevGenerateIcon,
+      numIcons: Math.max(prevGenerateIcon.numIcons - 1, 1),
+    }));
   };
 
-  // handle generate icon
   const handleGenerateIcon = async () => {
-    // Reset errors
     setErrors({
       prompt: false,
       color: false,
       style: false,
     });
 
-    // Collect error conditions
     const validationErrors = [];
 
-    // Check for empty fields
-    if (!generateIcon.prompt.trim()) {
-      validationErrors.push("prompt");
-    }
+    if (!generateIcon.prompt.trim()) validationErrors.push("prompt");
+    if (!generateIcon.color) validationErrors.push("color");
+    if (!generateIcon.style) validationErrors.push("style");
 
-    if (!generateIcon.color) {
-      validationErrors.push("color");
-    }
-
-    if (!generateIcon.style) {
-      validationErrors.push("style");
-    }
-
-    // Display all collected errors
     setErrors((prevErrors) => ({
       ...prevErrors,
       prompt: validationErrors.includes("prompt"),
@@ -101,83 +122,38 @@ const GenerateForm = () => {
       style: validationErrors.includes("style"),
     }));
 
-    // Check if there are any errors before proceeding
-    if (validationErrors.length > 0) {
-      return;
-    }
+    if (validationErrors.length > 0) return;
 
-    // show loading spinner
     setLoading(true);
 
-    const response = await fetch(`/api/generate/${session?.user.id}`, {
-      method: "POST",
-      body: JSON.stringify(generateIcon),
-    });
+    // try {
+    //   const response = await fetch(`/api/generate/${session?.user.id}`, {
+    //     method: "POST",
+    //     body: JSON.stringify(generateIcon),
+    //   });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+    //   if (!response.ok)
+    //     throw new Error(`HTTP error! Status: ${response.status}`);
 
-    const data = await response.json();
-    //  add generated icon to state
-    setGeneratedIcon(data);
-    setIsGenerated(true);
-    setLoading(false);
+    //   const data = await response.json();
+    //   setGeneratedIcon(data);
+    //   setIsGenerated(true);
+    // } catch (error) {
+    //   console.error(error);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
-
-  // colors
-  const classes = [
-    {
-      id: 1,
-      color: "black",
-      style: "rounded-full bg-black p-5 mr-2 cursor-pointer relative",
-    },
-    {
-      id: 2,
-      color: "red",
-      style: "rounded-full bg-red-500 p-5 mr-2 cursor-pointer relative",
-    },
-    {
-      id: 3,
-      color: "orange",
-      style: "rounded-full bg-orange-500 p-5 mr-2 cursor-pointer relative",
-    },
-    {
-      id: 4,
-      color: "yellow",
-      style: "rounded-full bg-yellow-500 p-5 mr-2 cursor-pointer relative",
-    },
-    {
-      id: 5,
-      color: "green",
-      style: "rounded-full bg-green-500 p-5 mr-2 cursor-pointer relative",
-    },
-    {
-      id: 6,
-      color: "blue",
-      style: "rounded-full bg-blue-500 p-5 mr-2 cursor-pointer relative",
-    },
-    {
-      id: 7,
-      color: "indigo",
-      style: "rounded-full bg-indigo-500 p-5 mr-2 cursor-pointer relative",
-    },
-    {
-      id: 8,
-      color: "violet",
-      style: "rounded-full bg-violet-500 p-5 mr-2 cursor-pointer relative",
-    },
-  ];
 
   return (
     <div className="mt-32 px-20 mx-auto md:w-[630px] w-full">
-      {errors.prompt || errors.color || errors.style ? (
+      {(errors.prompt || errors.color || errors.style) && (
         <ErrorAlert
           promptError={errors.prompt}
           colorError={errors.color}
           styleError={errors.style}
         />
-      ) : null}
+      )}
       <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10 mb-6">
         Generate Icon
       </span>
@@ -196,7 +172,7 @@ const GenerateForm = () => {
             type="email"
             name="prompt"
             id="email"
-            className="inline-block  w-full mt-2 rounded-md border-0 py-2 px-4 mr-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  outline-0 sm:text-sm sm:leading-6"
+            className="inline-block w-full mt-2 rounded-md border-0 py-2 px-4 mr-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-0 sm:text-sm sm:leading-6"
             placeholder="e.g. an angry bear"
             value={generateIcon.prompt}
             onChange={handleStateChange}
@@ -210,25 +186,22 @@ const GenerateForm = () => {
         <h3 className="text-base font-semibold leading-7 text-gray-900">
           Which color suits your app the most?
         </h3>
-        {/* <Tabs /> */}
         <div className="flex flex-wrap mt-2 gap-2 items-center">
-          {classes.map((classType) => {
-            return (
-              <div
-                key={classType.id}
-                id={classType.color}
-                className={`${classType.style}`}
-                onClick={() => handleSelectColor(event, classType)}
-              >
-                {generateIcon.color === classType.color && (
-                  <CheckIcon
-                    className="h-4 w-4 text-white absolute top-[11px] right-[11px]"
-                    aria-hidden="true"
-                  />
-                )}
-              </div>
-            );
-          })}
+          {colorClasses.map((classType) => (
+            <div
+              key={classType.id}
+              id={classType.color}
+              className={`${classType.style}`}
+              onClick={(event) => handleSelectColor(event, classType)}
+            >
+              {generateIcon.color === classType.color && (
+                <CheckIcon
+                  className="h-4 w-4 text-white absolute top-[11px] right-[11px]"
+                  aria-hidden="true"
+                />
+              )}
+            </div>
+          ))}
         </div>
         <div>
           <h3 className="text-base font-semibold leading-7 text-gray-900 mt-10">
@@ -264,14 +237,13 @@ const GenerateForm = () => {
               type="button"
               id="minus"
               onClick={subtractNumIcons}
-              className="rounded-full   bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-full bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               <MinusIcon id="minus" className="h-5 w-5" aria-hidden="true" />
             </button>
-            <div className="rounded-md border-0 py-2 px-4 mx-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  outline-0 sm:text-sm sm:leading-6">
+            <div className="rounded-md border-0 py-2 px-4 mx-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-0 sm:text-sm sm:leading-6">
               {generateIcon.numIcons}
             </div>
-
             <button
               type="button"
               id="plus"
@@ -284,10 +256,9 @@ const GenerateForm = () => {
           <button
             disabled={loading}
             onClick={handleGenerateIcon}
-            className={`rounded-md mt-4 bg-indigo-${
-              loading ? "400" : "600"
-            } px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+            className="flex items-center rounded-md mt-4 bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
+            {loading && <LoadingSpinner />}
             {loading ? "Loading..." : "Generate"}
           </button>
         </div>
