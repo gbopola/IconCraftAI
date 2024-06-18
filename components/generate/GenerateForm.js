@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, use } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { CheckIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
@@ -8,6 +8,7 @@ import PromptInfo from "./PromptInfo";
 import ErrorAlert from "./ErrorAlert";
 import { classes, iconStyles } from "../../constants/main";
 import { LoadingSpinner } from "./LoadingSpinner";
+import { Slide, toast } from "react-toastify";
 
 const GenerateForm = () => {
   const { generateIcon, setGenerateIcon } = useContext(GenerateIconContext);
@@ -37,7 +38,29 @@ const GenerateForm = () => {
       style: selectedStyle,
       numIcons,
     });
-  }, [selectedColor, selectedStyle, numIcons]);
+
+    // Check if there are any errors
+    if (Object.keys(errors).length > 0) {
+      toast.error("Some fields are missing", {
+        position: "top-center",
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
+    }
+  }, [
+    selectedColor,
+    selectedStyle,
+    numIcons,
+    errors.prompt,
+    errors.color,
+    errors.style,
+  ]);
 
   const increaseNumIcons = () => {
     setValue("numIcons", numIcons + 1);
@@ -48,19 +71,15 @@ const GenerateForm = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(loading);
-    setLoading(true);
+    console.log(data);
     // setLoading(true);
-
     // const response = await fetch(`/api/generate/${session?.user.id}`, {
     //   method: "POST",
     //   body: JSON.stringify(data),
     // });
-
     // if (!response.ok) {
     //   throw new Error(`HTTP error! Status: ${response.status}`);
     // }
-
     // const responseData = await response.json();
     // setGeneratedIcon(responseData);
     // setIsGenerated(true);
@@ -69,13 +88,13 @@ const GenerateForm = () => {
 
   return (
     <div className="mt-32 px-20 mx-auto md:w-[630px] w-full">
-      {(errors.prompt || errors.color || errors.style) && (
+      {/* {(errors.prompt || errors.color || errors.style) && (
         <ErrorAlert
           promptError={!!errors.prompt}
           colorError={!!errors.color}
           styleError={!!errors.style}
         />
-      )}
+      )} */}
       <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10 mb-6">
         Generate Icon
       </span>

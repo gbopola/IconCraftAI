@@ -3,6 +3,8 @@ import { GenerateIconProvider } from "../context/GenerateIconContext";
 import "./globals.css";
 import Navbar from "../components/shared/Navbar";
 import { Inter } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +17,7 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ToastContainer />
         <NextAuthProvider>
           <GenerateIconProvider>
             <Navbar />
