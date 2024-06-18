@@ -122,7 +122,12 @@ const GenerateForm = () => {
       style: validationErrors.includes("style"),
     }));
 
-    if (validationErrors.length > 0) return;
+    if (validationErrors.length > 0) {
+      // scroll to the top of the page with smooth behavior
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      return;
+    }
 
     setLoading(true);
 
