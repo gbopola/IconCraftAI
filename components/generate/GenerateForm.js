@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import ErrorAlert from "./ErrorAlert";
 import { LoadingSpinner } from "./LoadingSpinner";
 import useGenerateIconForm from "../../hooks/useGenerateIconForm";
+import { LockClosedIcon } from "@heroicons/react/20/solid";
 
 const colorClasses = [
   {
@@ -193,6 +194,9 @@ const GenerateForm = () => {
             className="flex items-center rounded-md mt-4 bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             {loading && <LoadingSpinner />}
+            {!session && (
+              <LockClosedIcon className="h-4 w-4 mr-2" aria-hidden="true" />
+            )}
             {checkLoadingOrSession()}
           </button>
         </div>

@@ -24,15 +24,17 @@ export async function POST(request, { params }) {
     );
   }
 
+  const creditCost = 2;
+  const totalCredits = numIcons * creditCost;
   // redeem credits
   const user = await User.findById(params.id);
   // check if user has enough credits
-  // if (user.credits < numIcons || user.credits === 0) {
-  //   return NextResponse.json(
-  //     { message: "Insufficient credits" },
-  //     { status: 400 }
-  //   );
-  // }
+  if (user.credits < totalCredits) {
+    return NextResponse.json(
+      { message: "Insufficient credits" },
+      { status: 400 }
+    );
+  }
 
   // Create full prompt with all parameters
   const fullPrompt = `App icon, ${prompt}, ${
@@ -84,7 +86,7 @@ export async function POST(request, { params }) {
   }
 
   // Deduct credits from user
-  // user.credits -= numIcons;
+  user.credits -= totalCredits;
   await user.save();
 
   return NextResponse.json(generatedIcons, { status: 200 });
