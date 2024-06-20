@@ -1,5 +1,7 @@
 import { useState, useContext } from "react";
 import { GenerateIconContext } from "../context/GenerateIconContext";
+import { useSession } from "next-auth/react";
+import { Slide, toast } from "react-toastify";
 
 const useGenerateIconForm = () => {
   const { generateIcon, setGenerateIcon, setGeneratedIcon, setIsGenerated } =
@@ -10,6 +12,8 @@ const useGenerateIconForm = () => {
     color: false,
     style: false,
   });
+
+  const { data: session } = useSession();
 
   const handleStateChange = (event) => {
     setGenerateIcon({
@@ -79,22 +83,36 @@ const useGenerateIconForm = () => {
     setLoading(true);
 
     // Uncomment the below try-catch block for actual API call
-    // try {
-    //   const response = await fetch(`/api/generate/${session?.user.id}`, {
-    //     method: "POST",
-    //     body: JSON.stringify(generateIcon),
-    //   });
+    try {
+      setLoading(true);
 
-    //   if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      const response = await fetch(`/api/generate/${session?.user.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(generateIcon),
+      });
 
-    //   const data = await response.json();
-    //   setGeneratedIcon(data);
-    //   setIsGenerated(true);
-    // } catch (error) {
-    //   console.error(error);
-    // } finally {
-    //   setLoading(false);
-    // }
+      if (!response.ok) {
+        toast.error(`Error Status: ${response.status}`, {
+          position: "top-center",
+          theme: "colored",
+          autoClose: false,
+          pauseOnHover: false,
+          transition: Slide,
+        });
+        return;
+      }
+
+      const data = await response.json();
+      setGeneratedIcon(data);
+      setIsGenerated(true);
+    } catch (error) {
+      console.error("Error generating icon:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
