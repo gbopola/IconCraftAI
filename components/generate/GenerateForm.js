@@ -81,7 +81,7 @@ const GenerateForm = () => {
   };
 
   return (
-    <div className="mt-32 mb-10 px-20 mx-auto md:w-[630px] w-full">
+    <div className="mt-32 mb-10 px-10 lg:px-20 mx-auto md:w-[630px] w-full">
       {(errors.prompt || errors.color || errors.style) && (
         <ErrorAlert
           promptError={errors.prompt}
@@ -142,14 +142,14 @@ const GenerateForm = () => {
           <h3 className="text-base font-semibold leading-7 text-gray-900 mt-10">
             Which style would you like?
           </h3>
-          <div className="flex flex-wrap mt-2 gap-4 items-center">
+          <div className="md:grid flex flex-wrap lg:grid-cols-icon-grid-lg md:grid-cols-icon-grid-lg gap-3 mt-2">
             {iconStyles.map((style) => (
-              <div key={style.name}>
+              <div key={style.name} className="flex flex-col items-center">
                 <Image
+                  unoptimized
                   src={style.image}
                   id={style.name}
-                  width={100}
-                  height={100}
+                  width={85}
                   onClick={changeCurrentStyle}
                   alt={style.name}
                   className={`rounded-xl cursor-pointer ${
@@ -157,9 +157,7 @@ const GenerateForm = () => {
                     "border border-4 border-purple-600"
                   }`}
                 />
-                <p className="text-center text-sm text-gray-600">
-                  {style.name}
-                </p>
+                <p className="text-sm text-gray-600">{style.name}</p>
               </div>
             ))}
           </div>

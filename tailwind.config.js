@@ -17,6 +17,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        // Simple 16 column grid
+        "icon-grid-lg": "repeat(4, 100px)",
+        "icon-grid-sm": "repeat(3, 100px)",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

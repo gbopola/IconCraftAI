@@ -13,8 +13,10 @@ const useGenerateIconForm = () => {
     style: false,
   });
 
+  // Get the session of the current user
   const { data: session } = useSession();
 
+  // Handle the state change of the input fields
   const handleStateChange = (event) => {
     setGenerateIcon({
       ...generateIcon,
@@ -22,6 +24,7 @@ const useGenerateIconForm = () => {
     });
   };
 
+  // Change the current style of the icon
   const changeCurrentStyle = (event) => {
     setGenerateIcon({
       ...generateIcon,
@@ -29,6 +32,7 @@ const useGenerateIconForm = () => {
     });
   };
 
+  // Handle the selection of the color
   const handleSelectColor = (event, classType) => {
     if (generateIcon.color !== classType.color) {
       setGenerateIcon({
@@ -80,9 +84,6 @@ const useGenerateIconForm = () => {
       return;
     }
 
-    setLoading(true);
-
-    // Uncomment the below try-catch block for actual API call
     try {
       setLoading(true);
 
@@ -108,8 +109,6 @@ const useGenerateIconForm = () => {
       const data = await response.json();
       setGeneratedIcon(data);
       setIsGenerated(true);
-    } catch (error) {
-      console.error("Error generating icon:", error);
     } finally {
       setLoading(false);
     }
