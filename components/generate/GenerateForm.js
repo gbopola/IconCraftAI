@@ -154,7 +154,7 @@ const GenerateForm = () => {
                   alt={style.name}
                   className={`rounded-xl cursor-pointer ${
                     generateIcon.style === style.name &&
-                    "border border-4 border-purple-600"
+                    "border border-4 border-purple-400"
                   }`}
                 />
                 <p className="text-sm text-gray-600">{style.name}</p>
@@ -189,7 +189,7 @@ const GenerateForm = () => {
           <button
             disabled={loading || !session}
             onClick={handleGenerateIcon}
-            className="flex items-center rounded-md mt-4 bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-full justify-center items-center rounded-md mt-4 bg-indigo-600 px-3.5 py-3 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             {loading && <LoadingSpinner />}
             {!session && (

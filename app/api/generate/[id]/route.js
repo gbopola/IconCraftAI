@@ -57,7 +57,7 @@ export async function POST(request, { params }) {
     );
   }
 
-  // Execute all requests in parallel
+  // // Execute all requests in parallel
   const responses = await Promise.all(requests);
 
   // Process responses
@@ -69,6 +69,7 @@ export async function POST(request, { params }) {
     const uploadedImage = await cloudinary.uploader.upload(image, {
       folder: "iconcraftai",
       public_id: `${prompt}`,
+      overwrite: false,
       transformation: { flags: "attachment" },
     });
 
