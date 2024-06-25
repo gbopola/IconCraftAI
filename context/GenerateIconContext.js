@@ -15,11 +15,13 @@ export const GenerateIconProvider = ({ children }) => {
 
   const [isGenerated, setIsGenerated] = useState(false);
 
-  const [tabs, setTabs] = useState([
-    { name: "Set", current: true },
-    { name: "Color picker", current: false },
-    { name: "Custom", current: false },
-  ]);
+  const [userIcons, setUserIcons] = useState([]);
+
+  // const [tabs, setTabs] = useState([
+  //   { name: "Set", current: true },
+  //   { name: "Color picker", current: false },
+  //   { name: "Custom", current: false },
+  // ]);
 
   return (
     <GenerateIconContext.Provider
@@ -30,8 +32,8 @@ export const GenerateIconProvider = ({ children }) => {
         setIsGenerated,
         generatedIcon,
         setGeneratedIcon,
-        tabs,
-        setTabs,
+        userIcons,
+        setUserIcons,
       }}
     >
       {children}

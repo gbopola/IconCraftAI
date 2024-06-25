@@ -68,7 +68,7 @@ export async function POST(request, { params }) {
     // Upload image to Cloudinary
     const uploadedImage = await cloudinary.uploader.upload(image, {
       folder: "iconcraftai",
-      public_id: `${prompt}`,
+      public_id: `${user._id}-${i}`,
       overwrite: false,
       transformation: { flags: "attachment" },
     });
