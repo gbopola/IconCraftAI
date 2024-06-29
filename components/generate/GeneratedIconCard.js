@@ -1,7 +1,6 @@
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
 
 const GeneratedIconCard = ({ icon }) => {
   const { prompt, color, image } = icon;
@@ -20,6 +19,7 @@ const GeneratedIconCard = ({ icon }) => {
       />
       <div className="flex justify-between items-center p-3">
         <p className="text-xs">{prompt}</p>
+
         <Link href={image}>
           <ArrowDownTrayIcon
             className="h-4 w-4 cursor-pointer"

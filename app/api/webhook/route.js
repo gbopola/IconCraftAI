@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import User from "../../../models/User";
 import { connectMongoDB } from "../../../lib/mongodb";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-export async function POST(request) {
+export async function POST(request, { params }) {
   await connectMongoDB();
 
   // This is your Stripe CLI webhook secret for testing your endpoint locally.
@@ -15,6 +15,8 @@ export async function POST(request) {
   let event;
 
   event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
+
+  console.log(params);
 
   const user = await User.findById(event.data.object.client_reference_id);
 

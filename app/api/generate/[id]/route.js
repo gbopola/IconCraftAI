@@ -46,15 +46,21 @@ export async function POST(request, { params }) {
 
   // Create multiple requests based on numIcons
   for (let i = 0; i < numIcons; i++) {
-    requests.push(
-      openai.images.generate({
+    try {
+      const response = await openai.images.generate({
         prompt: fullPrompt,
         model,
         n: 1,
         quality: "hd",
         size: "1024x1024",
-      })
-    );
+      });
+      requests.push(response);
+    } catch (error) {
+      return NextResponse.json(
+        { message: `Something went wrong!` },
+        { status: 500 }
+      );
+    }
   }
 
   // // Execute all requests in parallel

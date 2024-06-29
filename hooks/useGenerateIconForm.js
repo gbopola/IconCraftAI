@@ -97,7 +97,7 @@ const useGenerateIconForm = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        toast.error(`${errorData.message || "Something went wrong"}`, {
+        toast.error(`${errorData.message} Error: ${response.status}`, {
           position: "top-center",
           theme: "colored",
           autoClose: false,

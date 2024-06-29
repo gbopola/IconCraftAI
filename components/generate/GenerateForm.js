@@ -55,7 +55,8 @@ const colorClasses = [
 ];
 
 const GenerateForm = () => {
-  const { status, data: session } = useSession();
+  const { data: session } = useSession();
+
   const {
     generateIcon,
     errors,
@@ -146,7 +147,6 @@ const GenerateForm = () => {
             {iconStyles.map((style) => (
               <div key={style.name} className="flex flex-col items-center">
                 <Image
-                  unoptimized
                   src={style.image}
                   id={style.name}
                   width={85}
